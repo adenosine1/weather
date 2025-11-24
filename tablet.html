@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="600">
+    <title>Weather Outlook Dashboard</title>
+    <style>
+        body {
+            background-color: black;
+            margin: 0;
+            padding: 5px;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        #time {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 5px;
+        }
+
+        img {
+            width: 32%;
+            height: auto;
+            border: 2px solid #333;
+        }
+    </style>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+
+            const hh = String(now.getHours()).padStart(2, '0');
+            const mm = String(now.getMinutes()).padStart(2, '0');
+            const ss = String(now.getSeconds()).padStart(2, '0');
+
+            document.getElementById('time').textContent = `${hh}:${mm}:${ss}`;
+        }
+
+        window.onload = updateTime;
+        setInterval(updateTime, 1000);
+    </script>
+</head>
+
+<body>
+    <div id="time"></div>
+
+    <!-- Row 1 -->
+    <div class="row">
+        <img src="https://www.spc.noaa.gov/products/outlook/day1otlk.gif" alt="Day 1 Outlook">
+        <img src="https://www.spc.noaa.gov/products/outlook/day2otlk.gif" alt="Day 2 Outlook">
+        <img src="https://www.spc.noaa.gov/products/outlook/day3otlk.gif" alt="Day 3 Outlook">
+    </div>
+
+    <!-- Row 2 -->
+    <div class="row">
+        <img src="https://www.wpc.ncep.noaa.gov/wwd/wssi/images/WSSI_Overall_EAX.png" alt="Overall WSSI">
+        <img src="https://www.wpc.ncep.noaa.gov/wwd/wssi/images/Snow_Amount_EAX.png" alt="Snow Amount">
+        <img src="https://www.wpc.ncep.noaa.gov/wwd/wssi/images/Ice_Accumulation_EAX.png" alt="Ice Accumulation">
+    </div>
+</body>
+</html>
