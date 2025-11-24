@@ -19,28 +19,55 @@
             margin-bottom: 8px;
         }
 
+        /* Center content and scale nicely on tablets */
+        .content {
+            width: 100%;
+            max-width: 1400px; /* keeps layout contained on large screens */
+            margin: 0 auto;
+        }
+
         .row {
             display: flex;
             justify-content: center;
+            flex-wrap: wrap;   /* allows responsive shrinking */
             gap: 5px;
             margin-bottom: 5px;
         }
 
         img {
-            width: 32%;
+            width: 30%;       /* general target width */
+            max-width: 32%;   /* prevents overflow */
             height: auto;
             border: 2px solid #333;
+        }
+
+        /* On smaller screens, shrink images further */
+        @media (max-width: 1100px) {
+            img {
+                width: 28%;
+            }
+        }
+
+        @media (max-width: 900px) {
+            img {
+                width: 30%;
+            }
+        }
+
+        /* Tablet portrait fallback (if needed later) */
+        @media (max-width: 700px) {
+            img {
+                width: 48%; /* two per row if rotated vertically */
+            }
         }
     </style>
 
     <script>
         function updateTime() {
             const now = new Date();
-
             const hh = String(now.getHours()).padStart(2, '0');
             const mm = String(now.getMinutes()).padStart(2, '0');
             const ss = String(now.getSeconds()).padStart(2, '0');
-
             document.getElementById('time').textContent = `${hh}:${mm}:${ss}`;
         }
 
@@ -52,18 +79,20 @@
 <body>
     <div id="time"></div>
 
-    <!-- Row 1 -->
-    <div class="row">
-        <img src="https://www.spc.noaa.gov/products/outlook/day1otlk.gif" alt="Day 1 Outlook">
-        <img src="https://www.spc.noaa.gov/products/outlook/day2otlk.gif" alt="Day 2 Outlook">
-        <img src="https://www.spc.noaa.gov/products/outlook/day3otlk.gif" alt="Day 3 Outlook">
-    </div>
+    <div class="content">
+        <!-- Row 1 -->
+        <div class="row">
+            <img src="https://www.spc.noaa.gov/products/outlook/day1otlk.gif" alt="Day 1 Outlook">
+            <img src="https://www.spc.noaa.gov/products/outlook/day2otlk.gif" alt="Day 2 Outlook">
+            <img src="https://www.spc.noaa.gov/products/outlook/day3otlk.gif" alt="Day 3 Outlook">
+        </div>
 
-    <!-- Row 2 -->
-    <div class="row">
-        <img src="https://www.wpc.ncep.noaa.gov/wwd/wssi/images/WSSI_Overall_EAX.png" alt="Overall WSSI">
-        <img src="https://www.wpc.ncep.noaa.gov/wwd/wssi/images/Snow_Amount_EAX.png" alt="Snow Amount">
-        <img src="https://www.wpc.ncep.noaa.gov/wwd/wssi/images/Ice_Accumulation_EAX.png" alt="Ice Accumulation">
+        <!-- Row 2 -->
+        <div class="row">
+            <img src="https://www.wpc.ncep.noaa.gov/wwd/wssi/images/WSSI_Overall_EAX.png" alt="Overall WSSI">
+            <img src="https://www.wpc.ncep.noaa.gov/wwd/wssi/images/Snow_Amount_EAX.png" alt="Snow Amount">
+            <img src="https://www.wpc.ncep.noaa.gov/wwd/wssi/images/Ice_Accumulation_EAX.png" alt="Ice Accumulation">
+        </div>
     </div>
 </body>
 </html>
