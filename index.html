@@ -4,51 +4,36 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Weather Outlook</title>
+
 <style>
-  html, body {
-    height: 100%;
+  body {
     margin: 0;
-    background-color: black;
+    background: black;
     color: white;
     font-family: Arial, sans-serif;
+    text-align: center;
+    overflow-x: hidden;
   }
 
-  body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    overflow: hidden;
+  #time {
+    font-size: 2.2em;
+    margin: 10px 0;
+  }
+
+  /* GRID LAYOUT — 3 columns that shrink but keep aspect ratio */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: auto;
+    gap: 5px;
     padding: 5px;
     box-sizing: border-box;
   }
 
-  #time {
-    font-size: 2em;
-    margin-bottom: 5px;
-  }
-
-  #container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    transform-origin: top center;
+  .grid img {
     width: 100%;
-  }
-
-  .image-row {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    margin-bottom: 5px;
-  }
-
-  .image-row img {
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
+    height: auto;       /* Keep correct aspect ratio */
+    object-fit: contain; /* Make sure nothing stretches */
   }
 </style>
 </head>
@@ -56,56 +41,34 @@
 
 <div id="time"></div>
 
-<div id="container">
-  <div class="image-row">
-    <img src="https://www.spc.noaa.gov/products/outlook/day1otlk.gif" alt="Day 1 Outlook">
-    <img src="https://www.spc.noaa.gov/products/outlook/day2otlk.gif" alt="Day 2 Outlook">
-    <img src="https://www.spc.noaa.gov/products/outlook/day3otlk.gif" alt="Day 3 Outlook">
-  </div>
+<div class="grid">
+  <img src="https://www.spc.noaa.gov/products/outlook/day1otlk.gif">
+  <img src="https://www.spc.noaa.gov/products/outlook/day2otlk.gif">
+  <img src="https://www.spc.noaa.gov/products/outlook/day3otlk.gif">
 
-  <div class="image-row">
-    <img src="https://www.wpc.ncep.noaa.gov/wwd/wssi/images/WSSI_Overall_EAX.png" alt="WSSI Overall">
-    <img src="https://www.wpc.ncep.noaa.gov/wwd/wssi/images/Snow_Amount_EAX.png" alt="Snow Amount">
-    <img src="https://www.wpc.ncep.noaa.gov/wwd/wssi/images/Ice_Accumulation_EAX.png" alt="Ice Accumulation">
-  </div>
+  <img src="https://www.wpc.ncep.noaa.gov/wwd/wssi/images/WSSI_Overall_EAX.png">
+  <img src="https://www.wpc.ncep.noaa.gov/wwd/wssi/images/Snow_Amount_EAX.png">
+  <img src="https://www.wpc.ncep.noaa.gov/wwd/wssi/images/Ice_Accumulation_EAX.png">
 </div>
 
 <script>
-  // Update time in HH:MM:SS format
+  // Time in HH:MM:SS
   function updateTime() {
     const now = new Date();
-    const timeStr = now.toTimeString().split(' ')[0];
-    document.getElementById('time').textContent = timeStr;
+    document.getElementById('time').textContent =
+      now.toTimeString().split(" ")[0];
   }
-  updateTime();
   setInterval(updateTime, 1000);
+  updateTime();
 
   // Refresh images every 10 minutes
   function refreshImages() {
     document.querySelectorAll('img').forEach(img => {
-      const src = img.src.split('?')[0];
-      img.src = src + '?t=' + new Date().getTime();
+      const cleanSrc = img.src.split("?")[0];
+      img.src = cleanSrc + "?t=" + Date.now();
     });
   }
-  setInterval(refreshImages, 10 * 60 * 1000);
-
-  // Auto-scale container to fit both width and height
-  function scaleContainer() {
-    const container = document.getElementById('container');
-    const timeHeight = document.getElementById('time').offsetHeight;
-    
-    const containerWidth = container.scrollWidth;
-    const containerHeight = container.scrollHeight;
-    
-    const scaleX = window.innerWidth / containerWidth;
-    const scaleY = (window.innerHeight - timeHeight - 10) / containerHeight; // subtract time height + margin
-    const scale = Math.min(scaleX, scaleY); // use the smaller scale to fit both
-    
-    container.style.transform = `scale(${scale})`;
-  }
-
-  window.addEventListener('resize', scaleContainer);
-  window.addEventListener('load', scaleContainer);
+  setInterval(refreshImages, 600000);
 </script>
 
 </body>
